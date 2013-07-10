@@ -1,8 +1,10 @@
 apc40-mode
+
 ==========
 By Christopher Albin Edmonds
 For more information visit http://www.tunecrew.com/ or mailto:christopher@tunecrew.com
 For copyright information please see the end of this file
+
 ==========
 apc40-mode is a simple Java utility to switch between the three firmware modes of the Akai APC40 MIDI Controller, as described at http://www.akaipro.com/apc40map and in http://www.akaipro.com/extras/product/apc40/APC40_Communications_Protocol_rev_1.pdf
 
@@ -21,6 +23,7 @@ To use apc40-mode, cd to the directory where APC40Mode.class is located and invo
 2 - Alternate Ableton Live Mode
 
 Note that upon power-up, the APC40 enters Generic Mode. If you open Ableton Live with the APC40 powered and connected, and wait until you see the "red square" around the clips in Live, the APC40 will enter Ableton Live Mode, and will remain in this mode when you quit Live. (Need to verify whether the APC40 will enter Ableton Live Mode if it is not selected as a control surface in Live's preferences)
+
 ==========
 TO-DO
 
@@ -31,6 +34,7 @@ TO-DO
 - Convert DEBUG flag to input argument
 - Package mmj libraries, binary and source into one jar
 - Create GUI wrapper
+
 ==========
 Copyright 2013 Christopher Albin Edmonds
 
