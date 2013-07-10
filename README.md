@@ -14,12 +14,14 @@ To install the mmj libraries, download the package from http://www.humatic.de/we
 
 To build apc40-mode from scratch, simply use "javac APC40Mode.java". A class file is included, however, so this shouldn't be necessary.
 
-To use apc40-mode, cd to the directory where APC40Mode.class is located and invoke it with "java APC40Mode <mode>".
+To use apc40-mode, cd to the directory where APC40Mode.class is located and invoke it with "java APC40Mode mode".
 
-<mode> can be 0, 1 or 2, corresponding to the following modes:
+mode can be 0, 1 or 2, corresponding to the following modes:
 
 0 - Generic Mode
+
 1 - Ableton Live Mode
+
 2 - Alternate Ableton Live Mode
 
 Note that upon power-up, the APC40 enters Generic Mode. If you open Ableton Live with the APC40 powered and connected, and wait until you see the "red square" around the clips in Live, the APC40 will enter Ableton Live Mode, and will remain in this mode when you quit Live. (This will only occur if the APC40 is configured as a control surface in Live's preferences)
