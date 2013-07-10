@@ -22,7 +22,7 @@ To use apc40-mode, cd to the directory where APC40Mode.class is located and invo
 1 - Ableton Live Mode
 2 - Alternate Ableton Live Mode
 
-Note that upon power-up, the APC40 enters Generic Mode. If you open Ableton Live with the APC40 powered and connected, and wait until you see the "red square" around the clips in Live, the APC40 will enter Ableton Live Mode, and will remain in this mode when you quit Live. (Need to verify whether the APC40 will enter Ableton Live Mode if it is not selected as a control surface in Live's preferences)
+Note that upon power-up, the APC40 enters Generic Mode. If you open Ableton Live with the APC40 powered and connected, and wait until you see the "red square" around the clips in Live, the APC40 will enter Ableton Live Mode, and will remain in this mode when you quit Live. (This will only occur if the APC40 is configured as a control surface in Live's preferences)
 
 ==========
 TO-DO
