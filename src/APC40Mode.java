@@ -28,6 +28,8 @@
  * Third-party licenses included in apc40-mode are licensed under their respective licenses.
 */
 
+package com.tunecrew.midi;
+
 import de.humatic.mmj.*;
 import org.apache.commons.cli.*;
 
