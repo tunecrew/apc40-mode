@@ -1,0 +1,14 @@
+apc40-mode changelog
+
+----
+0.1.0 - 9 July 2013
+
+* initial version
+
+----
+0.2.0 - 11 July 2013
+
+* added Commons CLI to parse command line arguments
+* added help, list, mode command line arguments
+* reorganised source code to separate functionality
+* removed DEBUG code

@@ -1,4 +1,4 @@
-apc40-mode
+apc40-mode 0.2.0
 
 ==========
 By Christopher Albin Edmonds
@@ -33,9 +33,10 @@ TO-DO
 - Test on APC20 (does it have different modes too?)
 - Add comments to the code
 - Add usage message to the code
-- Convert DEBUG flag to input argument
+- DONE - Convert DEBUG flag to input argument
 - Package mmj libraries, binary and source into one jar
 - Create GUI wrapper
+- Add version numbers
 
 ==========
 Copyright 2013 Christopher Albin Edmonds
@@ -59,3 +60,6 @@ You should have received a copy of the GNU Lesser General Public License
 along with apc40-mode.  If not, see <http://www.gnu.org/licenses/>.
 
 For commercial use, please contact the author for license terms.
+
+Third-party licenses included in apc40-mode are licensed under their respective licenses.
+
