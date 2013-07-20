@@ -31,12 +31,16 @@
 package com.tunecrew.midi;
 
 import de.humatic.mmj.*;
+import javax.sound.midi.*;
 import org.apache.commons.cli.*;
+import org.apache.commons.lang3.*;
 
 public class APC40Mode
 {
-	private static final String APC40_NAME = "Akai APC40 - Akai APC40";
+	private static final String APC40_NAME_MAC = "Akai APC40 - Akai APC40";
+	private static final String APC40_NAME_LINUX = "Akai APC40 - Akai APC40";	
 	private static Options options;
+	private static String os;
 
 	static
 	{
@@ -57,6 +61,11 @@ public class APC40Mode
 		options.addOption(optionList);
 		options.addOption(optionHelp);
 		options.addOptionGroup(optionGroupMode);
+
+		os = "other";
+		if (SystemUtils.IS_OS_MAC_OSX) { os = "macosx"; }
+		else if (SystemUtils.IS_OS_LINUX) { os = "linux"; }
+		else if (SystemUtils.IS_OS_WINDOWS) { os = "windows"; }
 	}
 
 	public static void main (String[] args)
@@ -88,40 +97,59 @@ public class APC40Mode
 	
 	private static void changeMode(byte mode)
 	{
-		byte[] data = {(byte)0xf0, 0x47, 0x00, 0x73, 0x60, 0x00, 0x04, mode, 0x08, 0x04, 0x01, (byte)0xf7};
+		if (os.equals("macosx"))
+		{
+			byte[] data = {(byte)0xf0, 0x47, 0x00, 0x73, 0x60, 0x00, 0x04, mode, 0x08, 0x04, 0x01, (byte)0xf7};
 
-		MidiOutput midiOutput = getMidiOutput();
+			MidiOutput midiOutput = getMidiOutput();
 
-		if (midiOutput != null) { midiOutput.sendMidi(data); }
+			if (midiOutput != null) { midiOutput.sendMidi(data); }
+		}
+		else if (os.equals("windows") || os.equals("linux"))
+		{
+			
+		}
+		else { System.out.println("system unsupported"); }
 	}
 
 	private static void listDevices()
 	{
-		CoreMidiDevice[] coreMidiDevices = de.humatic.mmj.MidiSystem.getDevices();
-
-		System.out.println("MIDI devices");
-		System.out.println("------------");
-
-		for (int i = 0; i < coreMidiDevices.length; i++)
+		if (os.equals("macosx"))
 		{
-			CoreMidiDevice coreMidiDevice = coreMidiDevices[i];
+			CoreMidiDevice[] coreMidiDevices = de.humatic.mmj.MidiSystem.getDevices();
 
-			System.out.println("id:           " + coreMidiDevice.getID());
-			System.out.println("manufacturer: " + coreMidiDevice.getManufacturer());
-			System.out.println("model:        " + coreMidiDevice.getModel());
-			System.out.println("name:         " + coreMidiDevice.getName());
-			System.out.println();
+			System.out.println("MIDI devices");
+			System.out.println("------------");
+
+			for (CoreMidiDevice coreMidiDevice : coreMidiDevices)
+			{
+				System.out.println("id:           " + coreMidiDevice.getID());
+				System.out.println("manufacturer: " + coreMidiDevice.getManufacturer());
+				System.out.println("model:        " + coreMidiDevice.getModel());
+				System.out.println("name:         " + coreMidiDevice.getName());
+				System.out.println();
+			}
+
+			System.out.println("MIDI outputs");
+			System.out.println("------------");
+
+			String[] midiOutputs = de.humatic.mmj.MidiSystem.getOutputs();
+
+			for (int i = 0; i < midiOutputs.length; i++) { System.out.println("MIDI output: " + midiOutputs[i]); }
 		}
-
-		System.out.println("MIDI outputs");
-		System.out.println("------------");
-
-		String[] midiOutputs = de.humatic.mmj.MidiSystem.getOutputs();
-
-		for (int i = 0; i < midiOutputs.length; i++)
+		else if (os.equals("windows") || os.equals("linux"))
 		{
-			System.out.println("MIDI output: " + midiOutputs[i]);
+			MidiDevice.Info[] midiDeviceInfos = javax.sound.midi.MidiSystem.getMidiDeviceInfo();
+
+			for (MidiDevice.Info midiDeviceInfo : midiDeviceInfos)
+			{
+				System.out.println("vendor:" + midiDeviceInfo.getVendor());
+				System.out.println("name:" + midiDeviceInfo.getName());
+				System.out.println("description:" + midiDeviceInfo.getDescription());
+				System.out.println("version:" + midiDeviceInfo.getVersion());
+			}
 		}
+		else { System.out.println("system unsupported"); }
 	}
 
 	private static void printHelp()
@@ -138,7 +166,7 @@ public class APC40Mode
 
 		for (int i = 0; i < midiOutputs.length; i++)
 		{
-			if (midiOutputs[i].equals(APC40_NAME)) { midiOutput = de.humatic.mmj.MidiSystem.openMidiOutput(i); }
+			if (midiOutputs[i].equals(APC40_NAME_MAC)) { midiOutput = de.humatic.mmj.MidiSystem.openMidiOutput(i); }
 		}
 
 		if (midiOutput == null) { System.out.println("no APC40 found"); System.out.println(); }
