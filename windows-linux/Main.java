@@ -6,7 +6,10 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -14,6 +17,7 @@ import javax.sound.midi.*;
 
 public class Main extends Application {
     private static final String APC40_NAME = "APC40";
+    private final Text myStatusText = new Text("Select mode");
 
     public static void main(String[] args)
             throws MidiUnavailableException, InvalidMidiDataException {
@@ -21,16 +25,26 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
-        HBox hbox = new HBox();
-        hbox.setPadding(new Insets(15, 12, 15, 12));
-        hbox.setSpacing(10);
+    public void start(Stage stage)
+            throws Exception {
+        HBox modesBox = new HBox();
+        modesBox.setPadding(new Insets(12));
+        modesBox.setSpacing(10);
         for (APC40Mode mode : APC40Mode.values()) {
             Button button = new Button(mode.toString());
             button.setOnAction(new ModeButtonClickHandler(mode));
-            hbox.getChildren().add(button);
+            modesBox.getChildren().add(button);
         }
-        Scene scene = new Scene(hbox);
+        VBox statusBox = new VBox();
+        statusBox.setPadding(new Insets(5, 12, 5, 12));
+        statusBox.setStyle("-fx-background-color: gainsboro");
+        statusBox.getChildren().add(myStatusText);
+
+        BorderPane borderPane = new BorderPane();
+        borderPane.setCenter(modesBox);
+        borderPane.setBottom(statusBox);
+
+        Scene scene = new Scene(borderPane);
         stage.setScene(scene);
         stage.show();
         stage.setOnCloseRequest(new CloseRequestHandler());
@@ -53,7 +67,7 @@ public class Main extends Application {
         }
     }
 
-    private static MidiDevice getMidiOutputDevice()
+    private MidiDevice getMidiOutputDevice()
             throws MidiUnavailableException {
         MidiDevice.Info[] infos = MidiSystem.getMidiDeviceInfo();
         MidiOutDeviceProvider provider = new MidiOutDeviceProvider();
@@ -67,6 +81,7 @@ public class Main extends Application {
 
     private void printMessage(String message) {
         System.out.println(message);
+        myStatusText.setText(message);
     }
 
     private class ModeButtonClickHandler implements EventHandler<ActionEvent> {
