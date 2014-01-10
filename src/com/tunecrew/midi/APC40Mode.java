@@ -64,36 +64,27 @@ public class APC40Mode extends Application {
     public void start(Stage stage)
             throws Exception {
         // TODO msg if os is not supported
-        try {
-            HBox modesBox = new HBox();
-            modesBox.setPadding(new Insets(12));
-            modesBox.setSpacing(10);
-            for (Mode mode : Mode.values()) {
-                Button button = new Button(mode.toString());
-                button.setOnAction(new ModeButtonClickHandler(mode));
-                modesBox.getChildren().add(button);
-            }
-            VBox statusBox = new VBox();
-            statusBox.setPadding(new Insets(5, 12, 5, 12));
-            statusBox.setStyle("-fx-background-color: gainsboro");
-            statusBox.getChildren().add(myStatusText);
-
-            BorderPane borderPane = new BorderPane();
-            borderPane.setCenter(modesBox);
-            borderPane.setBottom(statusBox);
-
-            Scene scene = new Scene(borderPane);
-            stage.setScene(scene);
-            stage.show();
-            stage.setOnCloseRequest(new CloseRequestHandler());
-        } catch (RuntimeException e) {
-            Stage dialogStage = new Stage();
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.setScene(new Scene(VBoxBuilder.create().
-                    children(new Text("Hi"), new Button("Ok.")).
-                    alignment(Pos.CENTER).padding(new Insets(5)).build()));
-            dialogStage.show();
+        HBox modesBox = new HBox();
+        modesBox.setPadding(new Insets(12));
+        modesBox.setSpacing(10);
+        for (Mode mode : Mode.values()) {
+            Button button = new Button(mode.toString());
+            button.setOnAction(new ModeButtonClickHandler(mode));
+            modesBox.getChildren().add(button);
         }
+        VBox statusBox = new VBox();
+        statusBox.setPadding(new Insets(5, 12, 5, 12));
+        statusBox.setStyle("-fx-background-color: gainsboro");
+        statusBox.getChildren().add(myStatusText);
+
+        BorderPane borderPane = new BorderPane();
+        borderPane.setCenter(modesBox);
+        borderPane.setBottom(statusBox);
+
+        Scene scene = new Scene(borderPane);
+        stage.setScene(scene);
+        stage.show();
+        stage.setOnCloseRequest(new CloseRequestHandler());
     }
 
     private synchronized void applyModeWindowsLinux(Mode mode)
