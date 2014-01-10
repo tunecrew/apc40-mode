@@ -1,40 +1,55 @@
-<project name="APC40Mode" basedir="." default="main">
-	<property name="build.dir"   value="build"/>
-	<property name="classes.dir" value="${build.dir}/classes"/>
-	<property name="jar.dir"     value="${build.dir}/jar"/>
-	<property name="lib.dir"     value="lib"/>
-	<property name="src.dir"     value="src"/>
-	<property name="main-class"  value="com.tunecrew.midi.APC40Mode"/>
-	<path id="classpath">
-		<fileset dir="${lib.dir}" includes="**/*.jar"/>
-	</path>
-	<target name="clean">
-		<delete includeemptydirs="true">
-			<fileset dir="${build.dir}" includes="**/*"/>
-		</delete>
-	</target>
-	<target name="compile">
-		<mkdir dir="${classes.dir}"/>
-		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" includeantruntime="false"/>
-	</target>
-	<target name="jar" depends="compile">
-		<mkdir dir="${jar.dir}"/>
-		<jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
-			<manifest>
-				 <attribute name="Main-Class" value="${main-class}"/>
-			</manifest>
-		</jar>
-	</target>
-	<target name="run" depends="jar">
-		<java fork="true" classname="${main-class}">
-			<classpath>
-				<path refid="classpath"/>
-				<path location="${jar.dir}/${ant.project.name}.jar"/>
-			</classpath>
-			<arg line="${args}"/>
-			<jvmarg value="-Djava.library.path=${lib.dir}"/>
-		</java>
-	</target>
-	<target name="clean-build" depends="clean,jar"/>
-	<target name="main" depends="clean,run"/>
+<project name="APC40Mode" basedir="." xmlns:fx="javafx:com.sun.javafx.tools.ant">
+
+    <property name="build.dir" value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="jar.dir" value="${build.dir}/jar"/>
+    <property name="lib.dir" value="lib"/>
+    <property name="src.dir" value="src"/>
+    <property name="main-class" value="com.tunecrew.midi.APC40Mode"/>
+    <property environment="env"/>
+
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+        <fileset dir="${env.java_home}/jre/lib" includes="**/*.jar"/>
+    </path>
+
+    <target name="default">
+        <echo message="${env.java_home}"/>
+        <taskdef resource="com/sun/javafx/tools/ant/antlib.xml"
+                 uri="javafx:com.sun.javafx.tools.ant"
+                 classpath="${env.java_home}/lib/ant-javafx.jar"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="init" depends="clean">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${classes.dir}"/>
+        <mkdir dir="${jar.dir}"/>
+    </target>
+
+    <target name="compile" depends="default, init">
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" source="1.7" target="1.7"/>
+    </target>
+
+    <target name="jar" depends="compile">
+        <fx:jar destfile="${jar.dir}/${ant.project.name}">
+            <fx:application name="${ant.project.name}" mainClass="${main-class}"/>
+            <fx:resources>
+                <fx:fileset dir="${lib.dir}"/>
+            </fx:resources>
+            <fileset dir="${classes.dir}"/>
+        </fx:jar>
+    </target>
+    <target name="run" depends="jar">
+        <java fork="true" classname="${main-class}">
+            <classpath>
+                <path refid="classpath"/>
+                <path location="${jar.dir}/${ant.project.name}.jar"/>
+            </classpath>
+            <jvmarg value="-Djava.library.path=${lib.dir}"/>
+        </java>
+    </target>
 </project>

@@ -1,3 +1,7 @@
 # Mac files
 .DS_Store
 
+build/*
+out/*
+.idea/*
+
